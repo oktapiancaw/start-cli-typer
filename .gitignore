@@ -1,0 +1,30 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+*.lock
+
+# Virtual environments
+.venv/
+.python-version
+.ruff_cache
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Runtime output (this project writes these)
+logs/
+*.log
+public/input/*.xlsx
+public/output/*.json
+public/output/**/*.json
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
