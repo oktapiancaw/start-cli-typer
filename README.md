@@ -6,7 +6,7 @@ pydantic-settings, structured logging, and `uv` packaging.
 ## Generate a project
 
 ```bash
-uvx cookiecutter https://git.blackeye.id/utility/start-cli-typer.git
+uvx cookiecutter gh:oktapiancaw/start-cli-typer
 # or from a local clone:
 uvx cookiecutter path/to/start-cli-typer
 ```
