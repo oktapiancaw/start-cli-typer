@@ -12,4 +12,4 @@ class ApplicationConfig(BaseSettings):
         extra="ignore",
     )
 
-    output_dir: str = "/public/output"
+    output_dir: str = "./public/output"

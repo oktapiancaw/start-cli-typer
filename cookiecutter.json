@@ -1,0 +1,9 @@
+{
+    "project_name": "My CLI",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-').replace('_', '-') }}",
+    "cli_command": "{{ cookiecutter.project_slug }}",
+    "package_description": "A Typer CLI app",
+    "author_name": "Your Name",
+    "author_email": "you@example.com",
+    "python_version": "3.12"
+}

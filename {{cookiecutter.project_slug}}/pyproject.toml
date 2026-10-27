@@ -1,9 +1,12 @@
 [project]
-name = "start-cli-typer"
+name = "{{ cookiecutter.project_slug }}"
 version = "0.1.0"
-description = "Add your description here"
+description = "{{ cookiecutter.package_description }}"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">={{ cookiecutter.python_version }}"
+authors = [
+    { name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" },
+]
 dependencies = [
     "module-typica==0.2.14",
     "pydantic>=2.13.4",
@@ -12,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-cli-data = "src.main:app"
+{{ cookiecutter.cli_command }} = "src.main:app"
 
 [tool.uv]
 package = true

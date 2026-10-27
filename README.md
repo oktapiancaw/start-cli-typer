@@ -1,86 +1,50 @@
 # start-cli-typer
 
-A batteries-included [Typer](https://typer.tiangolo.com/) CLI starter: auto-discovered subcommands, Pydantic settings, structured logging, and a post-clone scaffold script. Managed with [uv](https://docs.astral.sh/uv/).
+Cookiecutter template for a Typer CLI app with auto-discovered subcommands,
+pydantic-settings, structured logging, and `uv` packaging.
 
-## Quick start
-
-```bash
-git clone https://git.blackeye.id/utility/starter-cli-typer.git myapp
-cd myapp
-python scaffold.py          # prompts for name/description/command, resets git, self-deletes
-uv sync
-uv run <your-command> --help
-```
-
-Before scaffolding, the default command is `cli-data`:
+## Generate a project
 
 ```bash
-uv run cli-data base hello --name World
-# Hello, World!
+uvx cookiecutter https://git.blackeye.id/utility/start-cli-typer.git
+# or from a local clone:
+uvx cookiecutter path/to/start-cli-typer
 ```
 
-## Project structure
+Prompts collected:
+
+| Variable              | Default                        |
+| --------------------- | ------------------------------ |
+| `project_name`        | `My CLI`                       |
+| `project_slug`        | derived from name              |
+| `cli_command`         | same as `project_slug`         |
+| `package_description` | `A Typer CLI app`              |
+| `author_name`         | `Your Name`                    |
+| `author_email`        | `you@example.com`              |
+| `python_version`      | `3.12`                         |
+
+The post-gen hook runs `git init` and prints the next commands.
+
+## Layout shipped to the generated project
 
 ```
-src/
-  main.py              # Typer entrypoint; auto-registers onrequest/* subcommands
-  commands/
-    base.py            # always-on commands (registered as `base`)
-    onrequest/         # drop-in modules; any module exposing `app` is auto-loaded
-  configs/
-    __init__.py        # logger setup + config/project_meta singletons
-    env.py             # ApplicationConfig (Pydantic settings from .env)
-  connections/         # place clients/adapters here
-  core/                # place business logic here
-  models/              # place data models here
-public/                # input/ output/ cache/ data/ working dirs
-logs/                  # rotating log files (prod_debug.log)
+<project_slug>/
+  pyproject.toml
+  .env.example
+  .python-version
+  README.md
+  src/
+    main.py              Typer entrypoint; auto-registers onrequest/*
+    commands/
+      base.py            always-on commands (`<cli> base ...`)
+      onrequest/         drop-in modules; any `app` is auto-loaded
+    configs/             logger + pydantic-settings
+    connections/
+    core/
+    models/
+  public/{cache,data,input,output}/
+  tests/
+  logs/
 ```
 
-## Commands
-
-Two panels: **base** (always registered) and **on-request** (auto-discovered).
-
-```bash
-uv run cli-data --help            # top-level, --verbose/-v enables debug logging
-uv run cli-data base hello        # base commands
-```
-
-### Adding a command
-
-Drop a module in `src/commands/onrequest/` that exposes a Typer `app`. It's auto-registered under the module name — no wiring in `main.py`.
-
-```python
-# src/commands/onrequest/greet.py
-import typer
-
-app = typer.Typer()
-
-
-@app.command()
-def morning(name: str = "World"):
-    typer.echo(f"Good morning, {name}!")
-```
-
-```bash
-uv run cli-data greet morning --name Okta
-```
-
-## Configuration
-
-Copy `.env.example` to `.env`. Settings load via `ApplicationConfig` (nested keys use `__`):
-
-| Var          | Default            | Purpose            |
-| ------------ | ------------------ | ------------------ |
-| `OUTPUT_DIR` | `./public/output`  | Default output dir |
-
-Access anywhere via `from src.configs import config` → `config.output_dir`.
-
-## Development
-
-```bash
-uv run ruff check .        # lint (F/E/W/I/N/UP/B/S rule sets)
-uv run ruff format .       # format
-```
-
-Requires Python >= 3.12.
+See the generated project's own `README.md` for day-to-day commands.
